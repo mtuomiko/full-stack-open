@@ -1,22 +1,15 @@
-title Traditional note creation
+title Single page app notes listing
 
-browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
-
-note over server:
-server creates and saves the new note object
-end note
-
-server->browser: HTTP redirect 302
-browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
 server->browser: HTML content
 browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
 server->browser: main.css file
-browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
-server->browser: main.js file
+browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+server->browser: spa.js file
 
 note over browser:
-browser executes code from main.js
-and requests json data
+browser executes code from spa.js
+and starts to request json data
 end note
 
 browser->server: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json

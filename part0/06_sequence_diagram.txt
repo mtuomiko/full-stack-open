@@ -1,0 +1,10 @@
+title Single page app note creation
+
+note over browser:
+new note is created in js code, added to notes
+array and then displayed in browser. after this 
+the browser starts to send the note to the server 
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+server->browser: HTTP status 201 Created
