@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom'
 
 const Heading = ({ text }) => <h1>{text}</h1>
 
+const Anecdote = ({ selected, anecdotes }) => {
+    return (
+        <p>{anecdotes[selected]}</p>
+    )
+}
+
 const Button = (props) => {
     const { onClick, text } = props
     return (
@@ -30,8 +36,8 @@ const MostVotes = ({ anecdotes, votes }) => {
     }
     return (
         <>
-            <p>{anecdotes[maxAnecdote]}</p>
-            <p>has {maxVotes} votes</p>
+            <Anecdote selected={maxAnecdote} anecdotes={anecdotes} />
+            <Votes selected={maxAnecdote} votes={votes} />
         </>
     )
 }
@@ -59,17 +65,13 @@ const App = (props) => {
     return (
         <div>
             <Heading text="Anecdote of the day" />
-            <div>
-                {props.anecdotes[selected]}
-            </div>
+            <Anecdote anecdotes={props.anecdotes} selected={selected} />
             <Votes selected={selected} votes={votes} />
-            
             <Button onClick={handleVote} text="Vote" />
             <Button onClick={handleNext} text="Next anecdote" />
 
             <Heading text="Anecdote with most votes" />
             <MostVotes anecdotes={anecdotes} votes={votes} />
-
         </div>
     )
 }
