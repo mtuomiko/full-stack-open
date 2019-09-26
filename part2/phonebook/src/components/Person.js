@@ -1,10 +1,13 @@
 import React from 'react'
 
 const Person = (props) => {
-  const {person} = props
+  const {person, removePerson} = props
 
   return (
-    <li>{person.name} {person.number}</li>
+    <li>
+      {person.name} {person.number} 
+      <button onClick={removePerson}>Delete</button>
+    </li>
   )
 }
 

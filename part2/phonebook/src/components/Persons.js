@@ -2,8 +2,8 @@ import React from 'react'
 import Person from './Person'
 
 const Persons = (props) => {
-  const {persons, filter} = props
-  const visiblePersons = (filter.length === 0) 
+  const { persons, filter, removePerson } = props
+  const visiblePersons = (filter.length === 0)
     ? persons
     : persons.filter(person => {
       const lowerCaseName = person.name.toLowerCase()
@@ -15,8 +15,12 @@ const Persons = (props) => {
 
   return (
     <ul>
-      {visiblePersons.map(person => 
-          <Person key={person.name} person={person} />
+      {visiblePersons.map(person =>
+        <Person
+          key={person.name}
+          person={person}
+          removePerson={() => removePerson(person.id)}
+        />
       )}
     </ul>
   )
