@@ -9,7 +9,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  
+
   useEffect(() => {
     axios
       .get('http://localhost:3001/persons')
@@ -24,7 +24,12 @@ const App = () => {
     if (persons.find(person => person.name === newName) !== undefined) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons(persons.concat({ name: newName, number: newNumber }))
+      const newPerson = { name: newName, number: newNumber }
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+        })
     }
   }
 
@@ -32,14 +37,13 @@ const App = () => {
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleFilterChange = (event) => setFilter(event.target.value)
 
-
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>Add new data</h2>
-      <PersonForm 
-        newname={newName} 
+      <PersonForm
+        newname={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
