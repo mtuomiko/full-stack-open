@@ -1,13 +1,15 @@
 import React from 'react'
 
-const Notification = ({ message, notificationType }) => {
-  if (message === null) {
+const Notification = ({ notification }) => {
+  if (notification.message === null) {
     return null
   }
 
+  const notificationType = (notification.type) ? notification.type : 'info'
+
   return (
     <div className={notificationType}>
-      {message}
+      {notification.message}
     </div>
   )
 }
