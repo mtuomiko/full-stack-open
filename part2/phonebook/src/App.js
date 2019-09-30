@@ -45,8 +45,13 @@ const App = () => {
             showNotification(`Updated phone number for ${existingPerson.name}`)
           })
           .catch(error => {
+            if (error.response.data.error) {
+              showNotification(`Unable to update ${existingPerson.name}. Error: ${error.response.data.error}`, 'error')
+            } else {
+              showNotification(`Unable to update ${existingPerson.name}.`, 'error')
+            }
             //setPersons(persons.filter(person => person.id !== existingPerson.id))
-            showNotification(`Unable to update ${existingPerson.name}. Updating is not yet supported.`, 'error')
+            
           })
       }
     } else {
@@ -56,6 +61,9 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           showNotification(`Added ${returnedPerson.name}`)
+        })
+        .catch(error => {
+          showNotification(error.response.data.error, 'error')
         })
     }
   }
