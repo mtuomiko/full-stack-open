@@ -1,0 +1,9 @@
+post http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Räpellys-blogi",
+    "author": "Testeri Teemu",
+    "url": "http://www.tee.mun",
+    "likes": 5
+}
