@@ -3,3 +3,4 @@ notes-backend/
 tunnit.txt
 laske_tunnit.py
 **/node_modules/
+.env
