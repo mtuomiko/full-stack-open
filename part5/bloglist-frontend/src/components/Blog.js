@@ -79,7 +79,6 @@ const Blog = ({ blog, showNotification, blogs, setBlogs, user }) => {
     </div>
   )
 
-
   if (!detailsVisible) {
     return simpleView()
   }

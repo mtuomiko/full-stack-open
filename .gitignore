@@ -4,3 +4,4 @@ tunnit.txt
 laske_tunnit.py
 **/node_modules/
 .env
+.git.bfg-report/

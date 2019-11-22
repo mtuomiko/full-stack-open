@@ -66,7 +66,7 @@ const App = () => {
   const handleUsernameChange = (event) => setUsername(event.target.value)
   const handlePasswordChange = (event) => setPassword(event.target.value)
 
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     showNotification(`Logged out as ${user.username}`)
     setUser(null)
     window.localStorage.removeItem('loggedBloglistUser')
@@ -124,7 +124,7 @@ const App = () => {
 
 
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
