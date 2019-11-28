@@ -1,22 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useField } from '../hooks'
 
 const BlogForm = ({ blogs, setBlogs, showNotification, user }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
-  const handleTitleChange = (event) => setTitle(event.target.value)
-  const handleAuthorChange = (event) => setAuthor(event.target.value)
-  const handleUrlChange = (event) => setUrl(event.target.value)
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
 
   const addBlog = async (event) => {
     event.preventDefault()
     const newBlog = {
-      title: title,
-      author: author,
-      url: url,
+      title: title.value,
+      author: author.value,
+      url: url.value,
     }
     try {
       const returnedBlog = await blogService.create(newBlog)
@@ -31,9 +28,9 @@ const BlogForm = ({ blogs, setBlogs, showNotification, user }) => {
       }
 
       setBlogs(blogs.concat(modifiedBlog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+      title.reset()
+      author.reset()
+      url.reset()
       showNotification(`Added new blog: ${returnedBlog.title}`)
     } catch (exception) {
       showNotification(`Error adding new blog: ${exception}`, 'error')
@@ -44,30 +41,15 @@ const BlogForm = ({ blogs, setBlogs, showNotification, user }) => {
     <form onSubmit={addBlog}>
       <div>
         Title
-        <input
-          type="text"
-          value={title}
-          name="Title"
-          onChange={handleTitleChange}
-        />
+        <input {...title.inputVars} name="Title" />
       </div>
       <div>
         Author
-        <input
-          type="text"
-          value={author}
-          name="Author"
-          onChange={handleAuthorChange}
-        />
+        <input {...author.inputVars} name="Author" />
       </div>
       <div>
         Url
-        <input
-          type="text"
-          value={url}
-          name="Url"
-          onChange={handleUrlChange}
-        />
+        <input {...url.inputVars} name="Url" />
       </div>
       <button type="submit">Add</button>
     </form>

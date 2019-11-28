@@ -6,11 +6,12 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import { useField } from './hooks'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({ message: null })
 
@@ -49,22 +50,20 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password,
+        username: username.value,
+        password: password.value,
       })
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
+      username.reset()
+      password.reset()
       showNotification(`Logged in as ${user.username}`)
     } catch (exception) {
       showNotification('Login failure', 'error')
       console.log(exception)
     }
   }
-
-  const handleUsernameChange = (event) => setUsername(event.target.value)
-  const handlePasswordChange = (event) => setPassword(event.target.value)
 
   const handleLogout = () => {
     showNotification(`Logged out as ${user.username}`)
@@ -82,9 +81,7 @@ const App = () => {
         <LoginForm
           handleLogin={handleLogin}
           username={username}
-          handleUsernameChange={handleUsernameChange}
           password={password}
-          handlePasswordChange={handlePasswordChange}
         /> :
         <div>
           <div>
