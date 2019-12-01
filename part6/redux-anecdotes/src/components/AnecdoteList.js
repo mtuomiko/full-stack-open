@@ -10,7 +10,7 @@ const AnecdoteList = ({ store }) => {
     store.dispatch(voteAnecdote(anecdote.id))
     store.dispatch(showNotification('You voted for anecdote "' + anecdote.content + '"'))
     setTimeout(() => {
-      store.dispatch(clearNotification())
+      store.dispatch(clearNotification('You voted for anecdote "' + anecdote.content + '"'))
     }, 5000)
   }
 

@@ -6,7 +6,10 @@ const notificationReducer = (state = initialState, action) => {
     case 'SHOW':
       return action.notification
     case 'CLEAR':
-      return ''
+      if (action.notification === state) {
+        return ''
+      }
+      return state
     default:
       return state
   }
@@ -20,9 +23,10 @@ export const showNotification = (text) => {
 }
 
 
-export const clearNotification = () => {
+export const clearNotification = (text) => {
   return {
     type: 'CLEAR',
+    notification: text
   }
 }
 
