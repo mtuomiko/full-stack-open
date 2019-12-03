@@ -1,30 +1,19 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { showNotification, clearNotification } from '../reducers/notificationReducer'
 
-const AnecdoteList = ({ store }) => {
-  const { anecdotes, filter } = store.getState()
+const AnecdoteList = (props) => {
+  const { visibleAnecdotes } = props
 
   const vote = (anecdote) => {
     console.log('vote', anecdote.id)
-    store.dispatch(voteAnecdote(anecdote.id))
-    store.dispatch(showNotification('You voted for anecdote "' + anecdote.content + '"'))
+    props.voteAnecdote(anecdote.id)
+    props.showNotification('You voted for anecdote "' + anecdote.content + '"')
     setTimeout(() => {
-      store.dispatch(clearNotification('You voted for anecdote "' + anecdote.content + '"'))
+      props.clearNotification('You voted for anecdote "' + anecdote.content + '"')
     }, 5000)
   }
-
-  const visibleAnecdotes = (filter === '')
-    ? anecdotes
-    : anecdotes.filter(anecdote => {
-      const lowerCaseAnecdote = anecdote.content.toLowerCase()
-      const lowerCaseFilter = filter //.toLowerCase()
-      return (
-        lowerCaseAnecdote.includes(lowerCaseFilter)
-      )
-    })
-
-
   return (
     <>
       {visibleAnecdotes.map(anecdote =>
@@ -45,4 +34,33 @@ const AnecdoteList = ({ store }) => {
   )
 }
 
-export default AnecdoteList
+const visibleAnecdotes = ({ anecdotes, filter }) => {
+  return (filter === '')
+    ? anecdotes
+    : anecdotes.filter(anecdote => {
+      const lowerCaseAnecdote = anecdote.content.toLowerCase()
+      const lowerCaseFilter = filter //.toLowerCase()
+      return (
+        lowerCaseAnecdote.includes(lowerCaseFilter)
+      )
+    })
+}
+
+const mapStateToProps = (state) => {
+  return {
+    visibleAnecdotes: visibleAnecdotes(state)
+  }
+}
+
+const mapDispatchToProps = {
+  voteAnecdote,
+  showNotification,
+  clearNotification,
+}
+
+const ConnectedAnecdoteList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)
+
+export default ConnectedAnecdoteList
