@@ -1,32 +1,50 @@
+const getId = () => (100000 * Math.random()).toFixed(0)
 
-const initialState = ''
+const initialState = {
+  text: '',
+}
 
+/** 
+ * Uses notification id so we can guarantee that the notification is visible
+ * for the duration it is supposed to be. This seemed simpler than clearing 
+ * timeouts using the timeout id returned by setTimeout 
+ */
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SHOW':
-      return action.notification
-    case 'CLEAR':
-      if (action.notification === state) {
-        return ''
+    case 'SHOW_INFO':
+      return {
+        text: action.text,
+        id: action.id,
+      }
+
+    case 'CLEAR_INFO':
+      if (action.id === state.id) {
+        return {
+          text: '',
+        }
       }
       return state
+
     default:
       return state
   }
 }
 
-export const showNotification = (text) => {
-  return {
-    type: 'SHOW',
-    notification: text
-  }
-}
+export const showNotification = (text, seconds) => {
+  return dispatch => {
+    const id = getId()
+    dispatch({
+      type: 'SHOW_INFO',
+      text,
+      id,
+    })
 
-
-export const clearNotification = (text) => {
-  return {
-    type: 'CLEAR',
-    notification: text
+    setTimeout(() => {
+      dispatch({
+        type: 'CLEAR_INFO',
+        id,
+      })
+    }, seconds * 1000)
   }
 }
 

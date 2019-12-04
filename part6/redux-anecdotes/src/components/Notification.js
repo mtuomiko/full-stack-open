@@ -9,7 +9,7 @@ const Notification = (props) => {
     borderWidth: 1
   }
 
-  if (props.notification === '') {
+  if (!props.notification) {
     return null
   }
 
@@ -21,9 +21,8 @@ const Notification = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
-    notification: state.notification,
+    notification: state.notification.text,
   }
 }
 
