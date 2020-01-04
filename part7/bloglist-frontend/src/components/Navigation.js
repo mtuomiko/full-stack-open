@@ -1,13 +1,8 @@
 import React from 'react'
-import {
-  HashRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter,
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logout } from '../reducers/loginReducer'
+import { Navbar, Nav, Button } from 'react-bootstrap'
 
 const Navigation = (props) => {
   const { user, logout } = props
@@ -16,15 +11,31 @@ const Navigation = (props) => {
     logout()
   }
 
+  if (!user) {
+    return null
+  }
+
   return (
     <div>
-      <div>
-        <Link to="/">Blogs</Link>&nbsp;
-        <Link to="/users">Users</Link>&nbsp;
-        {user.name} logged in
-        <button id="logout-button" onClick={handleLogout}>Logout</button>
-      </div>
-      <h2>Blog app</h2>
+      <Navbar className="shadow" collapseOnSelect expand="md" bg="light">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#" as="span">
+              <Link to="/">Blogs</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link to="/users">Users</Link>
+            </Nav.Link>
+          </Nav>
+          <Nav>
+            <Navbar.Text>
+              <Link to={`/users/${user.id}`}>{user.name}</Link> logged in
+              <Button className="btn-sm ml-1" variant="primary" onClick={handleLogout}>Logout</Button>
+            </Navbar.Text>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </div>
   )
 }

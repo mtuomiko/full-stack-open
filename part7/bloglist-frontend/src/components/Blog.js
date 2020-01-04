@@ -2,13 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import CommentForm from './CommentForm'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
-import {
-  HashRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter,
-} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { Button, Table, Card } from 'react-bootstrap'
 
 const Blog = (props) => {
   if (props.blog === undefined) {
@@ -31,31 +26,43 @@ const Blog = (props) => {
   // User comparison by username, not id. Probably not problematic, username should be unique in db
   return (
     <div>
-      <h3>{blog.title}, {blog.author}</h3>
-      <div>
-        <a href={blog.url}>{blog.url}</a>
-      </div>
-      <div>
-        {blog.likes} likes
-        <button onClick={like}>Like</button>
-      </div>
-      <div>Added by {blog.user.name}</div>
-      {user.username === blog.user.username &&
-        <button onClick={remove}>Remove</button>
-      }
-      <h3>Comments</h3>
-      <CommentForm blog={blog} />
-      {!blog.comments.length ?
-        <p>No comments yet</p> :
-        <ul>
-          {blog.comments.map((comment, index) =>
-            <li key={index}>{comment}</li>
-          )}
-        </ul>
-      }
-      <ul>
+      <Card>
+        <Card.Header as="h5">{blog.title}</Card.Header>
+        <div className="p-2">
+          <Card.Title>Author: {blog.author}</Card.Title>
+          <Card.Subtitle>Blog added by {blog.user.name}</Card.Subtitle>
+          <Card.Text>
+            <a href={blog.url}>{blog.url}</a>
+          </Card.Text>
+          <div>
+            {blog.likes} likes
+          <Button className="btn-sm ml-1" onClick={like}>Like</Button>
+          </div>
+          {user.username === blog.user.username &&
+            <div>
+              <Button className="btn-sm mt-2" onClick={remove}>Remove blog</Button>
+            </div>
+          }
+        </div>
+      </Card>
 
-      </ul>
+      <div className="mt-3">
+        <h3>Comments</h3>
+        <CommentForm blog={blog} />
+
+        {!blog.comments.length ?
+          <p>No comments yet</p> :
+          <Table striped className="mt-2">
+            <tbody>
+              {blog.comments.map((comment, index) =>
+                <tr key={index}>
+                  <td>{comment}</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        }
+      </div>
     </div>
   )
 }

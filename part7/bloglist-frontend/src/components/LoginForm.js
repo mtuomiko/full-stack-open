@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { login } from '../reducers/loginReducer'
 import { useField } from '../hooks'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 
 const LoginForm = (props) => {
-  const { login } = props
+  const { login, user } = props
   const username = useField('text')
   const password = useField('password')
 
@@ -14,19 +15,32 @@ const LoginForm = (props) => {
     login(username.value, password.value)
   }
 
+  if (user) {
+    return null
+  }
+
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        Username
-        <input {...username.inputVars} name="Username" />
-      </div>
-      <div>
-        Password
-        <input {...password.inputVars} name="Password" />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <Row className="mt-3">
+      <Col>
+        <h3>Blog app login</h3>
+        <Form onSubmit={handleLogin}>
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control {...username.inputVars} name="Username" />
+            <Form.Label>Password</Form.Label>
+            <Form.Control {...password.inputVars} name="Password" />
+            <Button className="mt-2" variant="primary" type="submit">Login</Button>
+          </Form.Group>
+        </Form>
+      </Col>
+    </Row>
   )
+}
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  }
 }
 
 const mapDispatchToProps = {
@@ -38,7 +52,7 @@ LoginForm.propTypes = {
 }
 
 const ConnectedLoginForm = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(LoginForm)
 

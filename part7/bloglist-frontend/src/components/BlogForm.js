@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { createBlog } from '../reducers/blogReducer'
 import { connect } from 'react-redux'
 import { useField } from '../hooks'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 
 const BlogForm = (props) => {
   const { createBlog } = props
@@ -27,21 +28,28 @@ const BlogForm = (props) => {
   }
 
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        Title
-        <input {...title.inputVars} name="Title" />
-      </div>
-      <div>
-        Author
-        <input {...author.inputVars} name="Author" />
-      </div>
-      <div>
-        Url
-        <input {...url.inputVars} name="Url" />
-      </div>
-      <button type="submit">Add</button>
-    </form>
+    <Form onSubmit={addBlog}>
+      <Form.Group as={Row}>
+        <Form.Label column md={2}>Title</Form.Label>
+        <Col md={10}>
+          <Form.Control {...title.inputVars} className="mr-auto" name="Title" />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Form.Label column md={2}>Author</Form.Label>
+        <Col md={10}>
+          <Form.Control {...author.inputVars} name="Author" />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Form.Label column md={2}>Url</Form.Label>
+        <Col md={10}>
+          <Form.Control {...url.inputVars} name="Url" />
+        </Col>
+      </Form.Group>
+
+      <Button variant="primary" type="submit">Add blog</Button>
+    </Form>
   )
 }
 

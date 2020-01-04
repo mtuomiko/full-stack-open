@@ -2,9 +2,7 @@ import React, { useEffect } from 'react'
 import {
   HashRouter as Router,
   Route,
-  Link,
   Redirect,
-  withRouter,
 } from 'react-router-dom'
 import BlogList from './components/BlogList'
 import UserList from './components/UserList'
@@ -17,15 +15,14 @@ import { connect } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import { logout, checkLogin } from './reducers/loginReducer'
+import { Container, Row, Col } from 'react-bootstrap'
 
 const App = (props) => {
   const {
     initializeBlogs,
     initializeUsers,
-    logout,
     checkLogin,
     user,
-    users,
   } = props
 
   useEffect(() => {
@@ -40,48 +37,41 @@ const App = (props) => {
     checkLogin()
   }, [checkLogin])
 
-  const handleLogout = () => {
-    logout()
-  }
-
   return (
-    <div>
+    <Container>
       <Router>
+        <Navigation />
         <Notification />
-        
-        {user === null ?
-          <LoginForm /> :
-          <Navigation />
-        }
+        <LoginForm />
 
         {user !== null &&
-          <>
-            <Togglable buttonLabel="Add blog">
-              <h3>Add new blog</h3>
-              <BlogForm />
-            </Togglable>
-            <Route path="/" render={() =>
-              <div>
-                <BlogList />
-              </div>
-            } />
-            <Route exact path="/blogs" render={() =>
-              <Redirect to="/" />
-            } />
-            <Route path="/users" render={() =>
-              <UserList />
-            } />
-          </>
+          <Row className="mt-3">
+            <Col>
+              <h2>Blog app</h2>
+              <Route exact path="/" render={() =>
+                <Togglable buttonLabel="Add blog">
+                  <h4>Add new blog</h4>
+                  <BlogForm />
+                </Togglable>
+              } />
+              <BlogList />
+              <Route exact path="/blogs" render={() =>
+                <Redirect to="/" />
+              } />
+              <Route path="/users" render={() =>
+                <UserList />
+              } />
+            </Col>
+          </Row>
         }
       </Router>
-    </div>
+    </Container>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    users: state.users,
   }
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Alert, Row, Col } from 'react-bootstrap'
 
 const Notification = (props) => {
   if (!props.notification) {
@@ -13,12 +14,26 @@ const Notification = (props) => {
     return null
   }
 
-  const notificationType = (type) ? type : 'info'
+  let notificationType = ''
+
+  if (!type) {
+    notificationType = 'success'
+  }
+
+  if (type === 'error') {
+    notificationType = 'danger'
+  } else {
+    notificationType = 'success'
+  }
 
   return (
-    <div className={notificationType}>
-      {notification}
-    </div>
+    <Row>
+      <Col>
+        <Alert variant={notificationType}>
+          {notification}
+        </Alert>
+      </Col>
+    </Row>
   )
 }
 

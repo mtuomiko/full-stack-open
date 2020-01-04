@@ -2,6 +2,7 @@ import React from 'react'
 import { useField } from '../hooks'
 import { addComment } from '../reducers/blogReducer'
 import { connect } from 'react-redux'
+import { Button, Form, Row, Col } from 'react-bootstrap'
 
 const CommentForm = (props) => {
   const { blog, addComment } = props
@@ -11,15 +12,20 @@ const CommentForm = (props) => {
   const handleAddComment = (event) => {
     event.preventDefault()
     addComment(blog, comment.value)
+    comment.reset()
   }
 
   return (
-    <form onSubmit={handleAddComment}>
-      <div>
-        <input {...comment.inputVars} name="Comment" />
-        <button type="submit">Add comment</button>
-      </div>
-    </form>
+    <Form onSubmit={handleAddComment}>
+      <Row>
+        <Col sm={8} md={6}>
+          <Form.Control {...comment.inputVars} name="Comment" />
+        </Col>
+        <Col>
+          <Button className="mt-2 mt-sm-0" type="submit">Add comment</Button>
+        </Col>
+      </Row>
+    </Form>
   )
 }
 

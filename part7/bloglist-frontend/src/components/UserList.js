@@ -1,13 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import User from './User'
-import {
-  HashRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter,
-} from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const UserList = (props) => {
   if (props.users === undefined) {
@@ -22,7 +17,7 @@ const UserList = (props) => {
       <Route exact path="/users" render={() =>
         <>
           <h3>Users</h3>
-          <table>
+          <Table striped>
             <thead>
               <tr>
                 <th></th>
@@ -39,7 +34,7 @@ const UserList = (props) => {
                 </tr>
               )}
             </tbody>
-          </table>
+          </Table>
         </>
       } />
       <Route path="/users/:id" render={({ match }) =>
