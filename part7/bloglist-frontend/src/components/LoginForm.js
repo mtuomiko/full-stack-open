@@ -13,6 +13,8 @@ const LoginForm = (props) => {
   const handleLogin = async (event) => {
     event.preventDefault()
     login(username.value, password.value)
+    username.reset()
+    password.reset()
   }
 
   if (user) {
@@ -26,10 +28,10 @@ const LoginForm = (props) => {
         <Form onSubmit={handleLogin}>
           <Form.Group>
             <Form.Label>Username</Form.Label>
-            <Form.Control {...username.inputVars} name="Username" />
+            <Form.Control data-cy="login-username" {...username.inputVars} name="Username" />
             <Form.Label>Password</Form.Label>
-            <Form.Control {...password.inputVars} name="Password" />
-            <Button className="mt-2" variant="primary" type="submit">Login</Button>
+            <Form.Control data-cy="login-password" {...password.inputVars} name="Password" />
+            <Button data-cy="login-button" className="mt-2" variant="primary" type="submit">Login</Button>
           </Form.Group>
         </Form>
       </Col>

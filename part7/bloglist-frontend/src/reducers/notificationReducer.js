@@ -4,9 +4,9 @@ const initialState = {
   text: '',
 }
 
-/** 
+/**
  * Uses notification id so we can guarantee that the notification is visible
- * for the duration it is supposed to be. This seemed simpler than clearing 
+ * for the duration it is supposed to be. This seemed simpler than clearing
  * timeouts using the timeout id returned by setTimeout.
  */
 const notificationReducer = (state = initialState, action) => {

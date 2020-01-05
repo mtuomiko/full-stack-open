@@ -1,14 +1,13 @@
 import userService from '../services/users'
 
-// Listens also for blog creations and removals, then updates users state 
+// Listens also for blog creations and removals, then updates users state
 const userReducer = (state = [], action) => {
   switch (action.type) {
-    case 'INIT_USERS':
+    case 'INIT_USERS': {
       const initState = [...action.data]
       return initState
-
-    
-    case 'CREATE_BLOG':
+    }
+    case 'CREATE_BLOG': {
       const userWithCreatedBlog = state.find(user => (user.id === action.blog.user.id))
       userWithCreatedBlog.blogs = [...userWithCreatedBlog.blogs, action.blog]
 
@@ -17,8 +16,8 @@ const userReducer = (state = [], action) => {
         : userWithCreatedBlog
       )
       return createdState
-
-    case 'REMOVE_BLOG':
+    }
+    case 'REMOVE_BLOG': {
       const userWithRemovedBlog = state.find(user => (user.id === action.blog.user.id))
       const filteredBlogs = userWithRemovedBlog.blogs.filter(blog => blog.id !== action.blog.id)
       userWithRemovedBlog.blogs = filteredBlogs
@@ -28,7 +27,7 @@ const userReducer = (state = [], action) => {
         : userWithRemovedBlog
       )
       return removedState
-
+    }
     default:
       return state
   }

@@ -32,23 +32,23 @@ const BlogForm = (props) => {
       <Form.Group as={Row}>
         <Form.Label column md={2}>Title</Form.Label>
         <Col md={10}>
-          <Form.Control {...title.inputVars} className="mr-auto" name="Title" />
+          <Form.Control data-cy="blogform-title" {...title.inputVars} className="mr-auto" name="Title" />
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
         <Form.Label column md={2}>Author</Form.Label>
         <Col md={10}>
-          <Form.Control {...author.inputVars} name="Author" />
+          <Form.Control data-cy="blogform-author" {...author.inputVars} name="Author" />
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
         <Form.Label column md={2}>Url</Form.Label>
         <Col md={10}>
-          <Form.Control {...url.inputVars} name="Url" />
+          <Form.Control data-cy="blogform-url" {...url.inputVars} name="Url" />
         </Col>
       </Form.Group>
 
-      <Button variant="primary" type="submit">Add blog</Button>
+      <Button data-cy="blogform-save" variant="primary" type="submit">Save</Button>
     </Form>
   )
 }

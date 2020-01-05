@@ -14,7 +14,7 @@ const BlogList = (props) => {
       <Route exact path="/" render={() =>
         <>
           <h3>Blogs</h3>
-          <Table striped>
+          <Table data-cy="bloglist-table" striped>
             <tbody>
               {blogs.map(blog =>
                 <tr key={blog.id}>

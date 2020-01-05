@@ -19,10 +19,10 @@ const CommentForm = (props) => {
     <Form onSubmit={handleAddComment}>
       <Row>
         <Col sm={8} md={6}>
-          <Form.Control {...comment.inputVars} name="Comment" />
+          <Form.Control data-cy="commentform-comment" {...comment.inputVars} name="Comment" />
         </Col>
         <Col>
-          <Button className="mt-2 mt-sm-0" type="submit">Add comment</Button>
+          <Button data-cy="commentform-button" className="mt-2 mt-sm-0" type="submit">Add comment</Button>
         </Col>
       </Row>
     </Form>

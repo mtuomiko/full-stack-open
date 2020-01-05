@@ -17,7 +17,7 @@ const UserList = (props) => {
       <Route exact path="/users" render={() =>
         <>
           <h3>Users</h3>
-          <Table striped>
+          <Table data-cy="userlist-table" striped>
             <thead>
               <tr>
                 <th></th>

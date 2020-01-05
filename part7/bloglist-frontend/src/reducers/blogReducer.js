@@ -8,31 +8,31 @@ const sortByLikes = (state) => {
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
-    case 'LIKE_BLOG':
+    case 'LIKE_BLOG': {
       const updatedBlog = action.blog
       const blogId = updatedBlog.id
       const likedState = state.map(blog => (blog.id !== blogId) ? blog : updatedBlog)
       sortByLikes(likedState)
       return likedState
-
-    case 'CREATE_BLOG':
+    }
+    case 'CREATE_BLOG': {
       const newState = [...state, action.blog]
       sortByLikes(newState)
       return newState
-
-    case 'INIT_BLOGS':
+    }
+    case 'INIT_BLOGS': {
       const initState = [...action.data]
       sortByLikes(initState)
       return initState
-
-    case 'REMOVE_BLOG':
+    }
+    case 'REMOVE_BLOG': {
       const removedState = state.filter(blog => blog.id !== action.blog.id)
       return removedState
-    
-    case 'ADD_COMMENT':
+    }
+    case 'ADD_COMMENT': {
       const commentAddedBlog = action.blog
       return state.map(blog => (blog.id !== commentAddedBlog.id) ? blog : commentAddedBlog)
-
+    }
     default:
       return state
   }

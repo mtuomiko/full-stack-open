@@ -36,7 +36,7 @@ const Blog = (props) => {
           </Card.Text>
           <div>
             {blog.likes} likes
-          <Button className="btn-sm ml-1" onClick={like}>Like</Button>
+            <Button data-cy="blog-like-button" className="btn-sm ml-1" onClick={like}>Like</Button>
           </div>
           {user.username === blog.user.username &&
             <div>
@@ -52,7 +52,7 @@ const Blog = (props) => {
 
         {!blog.comments.length ?
           <p>No comments yet</p> :
-          <Table striped className="mt-2">
+          <Table data-cy="blog-commentlist-table" striped className="mt-2">
             <tbody>
               {blog.comments.map((comment, index) =>
                 <tr key={index}>

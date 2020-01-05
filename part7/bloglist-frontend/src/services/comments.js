@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = '/api/blogs'
+const baseHost = BACKEND_URL
+const baseUrl = `${baseHost}/blogs`
 
 const create = async (id, comment) => {
   const response = await axios.post(`${baseUrl}/${id}/comments`, comment)
