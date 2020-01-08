@@ -158,21 +158,18 @@ const App = () => {
   const updateCacheWithAuthor = (author) => {
     const dataInStore = client.readQuery({ query: ALL_AUTHORS })
     if (!includedIn(dataInStore.allAuthors, author)) {
-      console.log("inside new")
       const dataWithNewAuthor = [...dataInStore.allAuthors, author]
       client.writeQuery({
         query: ALL_AUTHORS,
         data: { allAuthors: dataWithNewAuthor },
       })
     } else {
-      console.log("inside existing")
       const oldAuthors = dataInStore.allAuthors
       const dataWithModifiedAuthor = oldAuthors.map(a => (a.id === author.id) ? author : a)
       client.writeQuery({
         query: ALL_AUTHORS,
         data: { allAuthors: dataWithModifiedAuthor },
       })
-      console.log(client.readQuery({ query: ALL_AUTHORS }))
     }
   }
 

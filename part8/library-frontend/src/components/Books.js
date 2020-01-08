@@ -33,37 +33,37 @@ const Books = (props) => {
   return (
     <div>
       <h2>Books</h2>
-
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>
-              Author
-            </th>
-            <th>
-              Published
-            </th>
-          </tr>
-          {visibleBooks.map(a =>
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author.name}</td>
-              <td>{a.published}</td>
-            </tr>
+      {!books || books.length === 0 ?
+        <div>No books found</div> :
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <th></th>
+                <th>Author</th>
+                <th>Published</th>
+              </tr>
+              {visibleBooks.map(a =>
+                <tr key={a.title}>
+                  <td>{a.title}</td>
+                  <td>{a.author.name}</td>
+                  <td>{a.published}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          {allGenres.map(genre =>
+            <button
+              key={genre}
+              onClick={handleGenreFilterChange}
+              value={genre}
+            >
+              {capitalize(genre)}
+            </button>
           )}
-        </tbody>
-      </table>
-      {allGenres.map(genre =>
-        <button
-          key={genre}
-          onClick={handleGenreFilterChange}
-          value={genre}
-        >
-          {capitalize(genre)}
-        </button>
-      )}
-      <button onClick={handleGenreFilterChange} value="">All genres</button>
+          <button onClick={handleGenreFilterChange} value="">All genres</button>
+        </div>
+      }
     </div>
   )
 }
