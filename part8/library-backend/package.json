@@ -1,0 +1,24 @@
+{
+  "name": "library-backend",
+  "version": "0.0.1",
+  "description": "Library backend exercise",
+  "main": "library-backend.js",
+  "scripts": {
+    "start": "node library-backend.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon library-backend.js"
+  },
+  "author": "Matti Tuomikoski",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.9.15",
+    "dotenv": "^8.2.0",
+    "graphql": "^14.5.8",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.4",
+    "mongoose-unique-validator": "^2.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
