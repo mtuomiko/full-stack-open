@@ -1,2 +1,2 @@
 # full-stack-open
-Full Stack Open 2019 exercises.
+Full Stack Open exercises. Parts 1-8 completed as part of the 2019 course.
