@@ -14,7 +14,9 @@ interface Input {
 }
 
 const parseExerciseArgs = (args: string[]): Input => {
-  if (args.length < 4) throw new Error('Not enough arguments');
+  if (args.length < 4) {
+    throw new Error('Not enough arguments');
+  }
   const values = args.slice(2).map(x => Number(x));
   if (values.some(x => isNaN(x))) {
     throw new Error('Provided values were not numbers!');
@@ -22,10 +24,10 @@ const parseExerciseArgs = (args: string[]): Input => {
   return {
     hours: values.slice(1),
     target: values[0],
-  }
-}
+  };
+};
 
-const calculateExercises = (hours: number[], target: number): Result => {
+export const calculateExercises = (hours: number[], target: number): Result => {
   const periodLength = hours.length;
   const trainingDays = hours.filter(x => x > 0).length;
   const average = hours.reduce((a, b) => a + b, 0) / periodLength;
@@ -41,7 +43,7 @@ const calculateExercises = (hours: number[], target: number): Result => {
     ratingDescription = 'Nearly there';
   } else {
     rating = 3;
-    ratingDescription = 'Yeah buddy! ight weight!';
+    ratingDescription = 'Yeah buddy! Light weight!';
   }
 
   return {
@@ -52,12 +54,16 @@ const calculateExercises = (hours: number[], target: number): Result => {
     success,
     rating,
     ratingDescription,
-  }
-}
+  };
+};
 
-try {
-  const { hours, target } = parseExerciseArgs(process.argv);
-  console.log(calculateExercises(hours, target));
-} catch (e) {
-  console.log('Error:', e.message);
+if (require.main === module) {
+  try {
+    const { hours, target } = parseExerciseArgs(process.argv);
+    console.log(calculateExercises(hours, target));
+  } catch (e) {
+    if (e instanceof Error) {
+      console.log('Error:', e.message);
+    }
+  }
 }
