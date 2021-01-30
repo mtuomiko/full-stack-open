@@ -12,6 +12,7 @@ const toNewPatient = (obj: any): NewPatient => {
     ssn: parseString(obj.ssn),
     gender: parseGender(obj.gender),
     occupation: parseString(obj.occupation),
+    entries: [],
   };
 
   return newPatient;
