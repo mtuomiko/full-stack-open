@@ -1,4 +1,4 @@
-import patientData from '../../data/patients.json';
+import patientData from '../../data/patients';
 import { NewPatient, Patient, PublicPatient } from '../types';
 import { v1 as uuidv1 } from 'uuid';
 import toNewPatient from '../utils';
@@ -33,7 +33,7 @@ const addPatient = (patient: NewPatient): Patient => {
 const findById = (id: string): Patient | undefined => {
   const patient = patients.find(p => p.id === id);
   return patient;
-}
+};
 
 export default {
   getPatients,
