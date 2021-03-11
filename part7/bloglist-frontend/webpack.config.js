@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = (env, argv) => {
   // Production url not yet implemented, both urls here as a placeholder
@@ -26,16 +27,24 @@ const config = (env, argv) => {
       rules: [
         {
           test: /\.js$/,
-          loader: 'babel-loader',
-          query: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          },
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: ['@babel/preset-env', '@babel/preset-react']
+              },
+            },
+          ],
         },
       ],
     },
     plugins: [
       new webpack.DefinePlugin({
         BACKEND_URL: JSON.stringify(backend_url),
+      }),
+      new HtmlWebpackPlugin({
+        title: 'Bloglist app',
+        template: 'src/assets/template.html',
       })
     ]
   }

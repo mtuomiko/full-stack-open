@@ -3,7 +3,6 @@ import React from 'react'
 import { render } from '../testUtils'
 import { ConnectedBlog as Blog } from './Blog'
 
-
 describe('Blog component', () => {
   let component
 
@@ -52,7 +51,7 @@ describe('Blog component', () => {
   })
 
   test('renders blog comments', () => {
-    const commentsDiv = component.container.querySelector('[data-cy="blog-commentlist"]')
+    const commentsDiv = component.container.querySelector('[data-cy="blog-commentlist-table"]')
 
     expect(commentsDiv).toHaveTextContent('Changed my life')
     expect(commentsDiv).toHaveTextContent('Been there, done that')
