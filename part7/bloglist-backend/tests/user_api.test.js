@@ -3,13 +3,24 @@ const supertest = require('supertest')
 const app = require('../app')
 const User = require('../models/user')
 const helper = require('./test_helper')
+const bcrypt = require('bcrypt')
 
 const api = supertest(app)
 
 beforeEach(async () => {
   await User.deleteMany({})
 
-  const userObjects = helper.testUsers.map(user => new User(user))
+  const saltRounds = 10
+  const userObjectsPromiseArray = helper.testUsers.map(async user => {
+    const passwordHash = await bcrypt.hash(user.password, saltRounds)
+    return new User({
+      username: user.username,
+      name: user.name,
+      passwordHash,
+    })
+  })
+
+  const userObjects = await Promise.all(userObjectsPromiseArray)
 
   const promiseArray = userObjects.map(user => user.save())
   await Promise.all(promiseArray)

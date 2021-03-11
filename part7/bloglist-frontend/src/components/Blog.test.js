@@ -1,7 +1,8 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
-import { prettyDOM } from '@testing-library/dom'
-import Blog from './Blog'
+//import { render, fireEvent } from '@testing-library/react'
+import { render } from '../testUtils'
+import { ConnectedBlog as Blog } from './Blog'
+
 
 describe('Blog component', () => {
   let component
@@ -9,49 +10,51 @@ describe('Blog component', () => {
   const blog = {
     title: 'Zen and maintenance',
     author: 'Some Wise Guy',
-    url: 'http://zen.and.maintenan.ce/blawg',
+    url: 'http://zen.and.maintenan.ce',
     likes: '66',
     user: {
       name: 'Philosopher Phil',
       username: 'philphil',
-    }
+    },
+    comments: [
+      "Changed my life",
+      "Been there, done that",
+    ],
   }
 
-  const user = {
-    username: 'philphil'
+  const initialState = {
+    notification: {
+      text: ''
+    },
+    blogs: [],
+    user: {
+      name: 'Random Tester',
+      username: 'ttester',
+    },
+    users: [],
   }
 
   beforeEach(() => {
     component = render(
       <Blog
         blog={blog}
-        user={user}
-      />
+      />, { initialState }
     )
   })
 
-  test('Renders only simple view content at first', () => {
-    const blogDiv = component.container.querySelector('.blog')
-    expect(blogDiv).toHaveTextContent('Zen and maintenance, Some Wise Guy')
+  test('renders blog details', () => {
+    const blogDiv = component.container.querySelector('[data-cy="blog-details"]')
 
-    expect(blogDiv).not.toHaveTextContent('http://zen.and.maintenan.ce/blawg')
-    expect(blogDiv).not.toHaveTextContent('66 likes')
-    expect(blogDiv).not.toHaveTextContent('Added by Philosopher Phil')
-
-    console.log(prettyDOM(blogDiv))
+    expect(blogDiv).toHaveTextContent('Zen and maintenance')
+    expect(blogDiv).toHaveTextContent('Author: Some Wise Guy')
+    expect(blogDiv).toHaveTextContent('Blog added by Philosopher Phil')
+    expect(blogDiv).toHaveTextContent('http://zen.and.maintenan.ce')
   })
 
-  test('Renders detailed view after click', () => {
-    const blogDiv = component.container.querySelector('.blog')
+  test('renders blog comments', () => {
+    const commentsDiv = component.container.querySelector('[data-cy="blog-commentlist"]')
 
-    fireEvent.click(blogDiv)
-
-    expect(blogDiv).toHaveTextContent('Zen and maintenance, Some Wise Guy')
-    expect(blogDiv).toHaveTextContent('http://zen.and.maintenan.ce/blawg')
-    expect(blogDiv).toHaveTextContent('66 likes')
-    expect(blogDiv).toHaveTextContent('Added by Philosopher Phil')
-
-    console.log(prettyDOM(blogDiv))
+    expect(commentsDiv).toHaveTextContent('Changed my life')
+    expect(commentsDiv).toHaveTextContent('Been there, done that')
   })
-
 })

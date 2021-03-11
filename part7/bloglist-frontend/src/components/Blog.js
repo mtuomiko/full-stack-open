@@ -26,7 +26,7 @@ const Blog = (props) => {
   // User comparison by username, not id. Probably not problematic, username should be unique in db
   return (
     <div>
-      <Card>
+      <Card data-cy="blog-details">
         <Card.Header as="h5">{blog.title}</Card.Header>
         <div className="p-2">
           <Card.Title>Author: {blog.author}</Card.Title>
@@ -78,7 +78,7 @@ const mapDispatchToProps = {
   removeBlog,
 }
 
-const ConnectedBlog = connect(
+export const ConnectedBlog = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Blog)

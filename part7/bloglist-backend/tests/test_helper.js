@@ -44,7 +44,7 @@ const testUsers = [
   {
     username: 'teemutest',
     name: 'Teemu Testeri',
-    password: 'pass',
+    password: 'password',
   }
 ]
 

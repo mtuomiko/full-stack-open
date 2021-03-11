@@ -2,14 +2,47 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
+const bcrypt = require('bcrypt')
 
 const api = supertest(app)
+
+// Reset users and get data for test user
+let testUser
+beforeAll(async () => {
+  await User.deleteMany({})
+
+  const saltRounds = 10
+  const userObjectsPromiseArray = helper.testUsers.map(async user => {
+    const passwordHash = await bcrypt.hash(user.password, saltRounds)
+    return new User({
+      username: user.username,
+      name: user.name,
+      passwordHash,
+    })
+  })
+
+  const userObjects = await Promise.all(userObjectsPromiseArray)
+
+  const promiseArray = userObjects.map(user => user.save())
+  await Promise.all(promiseArray)
+
+  const auth = await api
+    .post('/api/login')
+    .send({ username: 'teemutest', password: 'password' })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+  testUser = auth.body
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  const blogObjects = helper.testBlogs.map(blog => new Blog(blog))
+  const blogObjects = helper.testBlogs.map(blog => {
+    blog.user = testUser.id // set testUser as creator of all blogs
+    return new Blog(blog)
+  })
 
   const promiseArray = blogObjects.map(blog => blog.save())
   await Promise.all(promiseArray)
@@ -28,6 +61,31 @@ describe('Get all blogs', () => {
 })
 
 describe('POST blog', () => {
+  test('Fails without authentication and no blog is created', async () => {
+    const newBlog = {
+      title: 'Test blog',
+      author: 'Testeri Teemu',
+      url: 'http://teemunb.log/main.html',
+      likes: 66,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.testBlogs.length)
+
+    const noIdBlogs = blogsAtEnd.map(blog => ({
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes,
+    }))
+    expect(noIdBlogs).not.toContainEqual(newBlog)
+  })
+
   test('Blog count increases and new blog is found', async () => {
     const newBlog = {
       title: 'Test blog',
@@ -38,6 +96,7 @@ describe('POST blog', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${testUser.token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -63,6 +122,7 @@ describe('POST blog', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${testUser.token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -84,6 +144,7 @@ describe('POST blog', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${testUser.token}`)
       .send(newBlog)
       .expect(400)
 
@@ -99,6 +160,7 @@ describe('DELETE blog', () => {
     const idToDelete = blogsAtStart[0].id
     await api
       .delete(`/api/blogs/${idToDelete}`)
+      .set('Authorization', `bearer ${testUser.token}`)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
